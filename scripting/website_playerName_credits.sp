@@ -73,11 +73,12 @@ public Action TimerGiveCredits(Handle timer, any userid)
 		if (StrContains(name, website, false) != -1)
 		{
 			Store_SetClientCredits(client, Store_GetClientCredits(client) + cvAmount.IntValue);
-			PrintToChat(client, " \x01[\x04DREAM\x01] %t", cvAmount.IntValue, "Give", cvAmount.IntValue);
+			PrintToChat(client, " \x01[\x04DREAM\x01] %t", "Give", cvAmount.IntValue);
+			
 		}
 	}
 	
-	return Plugin_Handled;
+	return Plugin_Continue;
 }
 
 /* Utils functions */
