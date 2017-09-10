@@ -17,5 +17,5 @@ Changelog
 
 Credits
 -------------
-Luckiris : Coding the plugin
-Nachtfrische : German translations
+> - Luckiris : Coding the plugin
+> - Nachtfrische : German translations
