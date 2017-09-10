@@ -4,7 +4,7 @@
 	{
 		"#format"		"{1:i}"
 		"en"			"You received {1} credits for having our community name !"
-		"de"			"FILL HERE"
+		"de"			"Du hast {1} Credits für unseren Community-Namen erhalten ! "
 		"fr"			"Vous reveveé {1} car vous avez le nom de notre communauté !"
 	}
 }
