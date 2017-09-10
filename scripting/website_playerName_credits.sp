@@ -25,6 +25,8 @@ public Plugin myinfo =
 
 public void OnPluginStart()
 {
+	LoadTranslations("website_playerName_credits.phrases");
+	
 	cvWeb = CreateConVar("sm_pnc_website", "dream-community.de", "Website the player should have in his name in order to receive credits");
 	cvTimer = CreateConVar("sm_pnc_timer", "60.0", "When the players should receive credits (every X seconds)");
 	cvAmount = CreateConVar("sm_pnc_amount_credits", "1", "How much credits the player should get");
@@ -71,7 +73,7 @@ public Action TimerGiveCredits(Handle timer, any userid)
 		if (StrContains(name, website, false) != -1)
 		{
 			Store_SetClientCredits(client, Store_GetClientCredits(client) + cvAmount.IntValue);
-			PrintToChat(client, " \x01[\x04DREAM\x01] You received \x04%i\x01 credits for having our \x04community name\x01", cvAmount.IntValue);
+			PrintToChat(client, " \x01[\x04DREAM\x01] %t", cvAmount.IntValue, "Give", cvAmount.IntValue);
 		}
 	}
 	
