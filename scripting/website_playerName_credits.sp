@@ -7,9 +7,6 @@
 
 #pragma newdecls required
 
-/* Globals var of the plugin */
-Handle gTimer[MAXPLAYERS + 1];
-
 /* Convars of the plugin */
 ConVar cvWeb;
 ConVar cvTimer;
@@ -35,40 +32,31 @@ public void OnPluginStart()
 	AutoExecConfig(true, "website_playername_credits");
 }
 
-public void OnClientConnected(int client)
+public void OnMapStart()
 {
-	/*	When the client connects, we create the timer set up in config 
-	
-	*/
-	gTimer[client] = CreateTimer(cvTimer.FloatValue, TimerGiveCredits, GetClientUserId(client), TIMER_REPEAT);
+	CreateTimer(cvTimer.FloatValue, TimerGiveCredits, _, TIMER_REPEAT | TIMER_FLAG_NO_MAPCHANGE);
 }
 
 public Action TimerGiveCredits(Handle timer, any userid)
 {
-	/*	Timer to give credits to the client
-	
-		IF client is valid and has the website
-		THEN credits are given to him
-		ELSE nothing happen
-	
-	*/
-	int client = GetClientOfUserId(userid);  // <- Get the client number in game
 	char website[128];// <- Store the website name
 	char name[128]; // <- Store the client name
+			
+	/* Setting up vars */
+	GetConVarString(cvWeb, website, sizeof(website));
 
-	/*Check if client in game and has the website */
-	if (IsClientValid(client))
+	for (int i = 0; i < MAXPLAYERS; i++)
 	{
-		/* Setting up vars */
-		GetConVarString(cvWeb, website, sizeof(website));
-		GetClientName(client, name, sizeof(name));
-		
-		if (StrContains(name, website, false) != -1)
+		if (IsClientValid(i))
 		{
-			Store_SetClientCredits(client, Store_GetClientCredits(client) + cvAmount.IntValue);
-			WriteToChat(client, "%t", "Give", cvAmount.IntValue);	
+			GetClientName(i, name, sizeof(name));
+		
+			if (StrContains(name, website, false) != -1)
+			{
+				Store_SetClientCredits(i, Store_GetClientCredits(i) + cvAmount.IntValue);
+				WriteToChat(i, "%t", "Give", cvAmount.IntValue);	
+			}
 		}
-		return Plugin_Continue;
 	}
-	return Plugin_Stop;
+	return Plugin_Continue;
 }
