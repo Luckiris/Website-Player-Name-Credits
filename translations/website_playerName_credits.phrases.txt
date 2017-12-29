@@ -3,8 +3,8 @@
 	"Give"
 	{
 		"#format"		"{1:i}"
-		"en"			"You received {1} credits for having our community name !"
-		"de"			"Du hast {1} Credits für unseren Community-Namen erhalten ! "
-		"fr"			"Vous reveveé {1} car vous avez le nom de notre communauté !"
+		"en"			" [{green}Store{default}] {limegreen}You received {default}{1} {limegreen}credits for having our community name !"
+		"de"			" [{green}Store{default}] {limegreen}Du hast {default}{1} {limegreen}Credits für unseren Community-Namen erhalten ! "
+		"fr"			" [{green}Store{default}] {limegreen}Vous recevez {default}{1} {limegreen}credits car vous avez le nom de notre communauté !"
 	}
 }

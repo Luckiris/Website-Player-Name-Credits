@@ -3,6 +3,7 @@
 #include <sourcemod>
 #include <sdktools>
 #include <store>
+#include <luckiris_include>
 
 #pragma newdecls required
 
@@ -19,7 +20,7 @@ public Plugin myinfo =
 	name = "Website in player name for credits",
 	author = "Luckiris",
 	description = "Give credits to players if he have a part of his name matching the config",
-	version = "1.0",
+	version = "1.1",
 	url = "https://www.dream-commnunity.de"
 };
 
@@ -42,14 +43,6 @@ public void OnClientConnected(int client)
 	gTimer[client] = CreateTimer(cvTimer.FloatValue, TimerGiveCredits, GetClientUserId(client), TIMER_REPEAT);
 }
 
-public void OnClientDisconnect(int client)
-{
-	/*	When the client disconnects, we kill the timer
-	
-	*/
-	KillTimer(gTimer[client]);
-}
-
 public Action TimerGiveCredits(Handle timer, any userid)
 {
 	/*	Timer to give credits to the client
@@ -64,7 +57,7 @@ public Action TimerGiveCredits(Handle timer, any userid)
 	char name[128]; // <- Store the client name
 
 	/*Check if client in game and has the website */
-	if (IsValidClient(client))
+	if (IsClientValid(client))
 	{
 		/* Setting up vars */
 		GetConVarString(cvWeb, website, sizeof(website));
@@ -73,21 +66,9 @@ public Action TimerGiveCredits(Handle timer, any userid)
 		if (StrContains(name, website, false) != -1)
 		{
 			Store_SetClientCredits(client, Store_GetClientCredits(client) + cvAmount.IntValue);
-			PrintToChat(client, " \x01[\x04DREAM\x01] %t", "Give", cvAmount.IntValue);
-			
+			WriteToChat(client, "%t", "Give", cvAmount.IntValue);	
 		}
+		return Plugin_Continue;
 	}
-	
-	return Plugin_Continue;
-}
-
-/* Utils functions */
-stock bool IsValidClient(int client)
-{
-	bool valid = false;
-	if (client > 0 && client <= MAXPLAYERS && IsClientConnected(client) && !IsFakeClient(client) && IsClientInGame(client))
-	{
-		valid = true;
-	}
-	return valid;
+	return Plugin_Stop;
 }
